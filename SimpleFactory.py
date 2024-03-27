@@ -55,6 +55,9 @@ class ExcelDocument(Document):
         return f"Extracting text from Excel file: {self.file_path}"
 
 
+# ############# SIMPLE FACTORY ##############
+
+
 class DocumentFactory:
     @staticmethod
     def create_document(file_path):
@@ -66,6 +69,9 @@ class DocumentFactory:
             return ExcelDocument(file_path)
         else:
             raise ValueError("Unsupported file format")
+
+
+# ############ CLIENT CODE #############
 
 
 documents = [DocumentFactory.create_document("doc1.docx"),
