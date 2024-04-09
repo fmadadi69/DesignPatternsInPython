@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 class Door:
     def getDescription(self):
         pass
@@ -57,3 +60,73 @@ door.getDescription()
 
 expert = woodenDoor.makeFittingExpert()
 expert.getDescription()
+
+
+# ################ THEMES ################## #
+class Button(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+
+
+class CheckBox(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+
+
+class LightButton(Button):
+    def draw(self):
+        print("Drawing light button")
+
+
+class DarkButton(Button):
+    def draw(self):
+        print("Drawing Dark Button")
+
+
+class LightCheckBox(CheckBox):
+    def draw(self):
+        print("Drawing light Checkbox")
+
+
+class DarkCheckbox(CheckBox):
+    def draw(self):
+        print("Drawing dark Checkbox")
+
+
+class GUIFactory(ABC):
+    @abstractmethod
+    def create_button(self):
+        pass
+
+    @abstractmethod
+    def create_checkbox(self):
+        pass
+
+
+class LightTheme(GUIFactory):
+    def create_button(self):
+        return LightButton()
+
+    def create_checkbox(self):
+        return LightCheckBox()
+
+
+class DarkTheme(GUIFactory):
+    def create_button(self):
+        return DarkButton()
+
+    def create_checkbox(self):
+        return DarkCheckbox()
+
+
+class Application:
+    def __init__(self, factory:GUIFactory):
+        self.factory = factory
+
+    def create_gui(self):
+        self.factory.create_button()
+        self.factory.create_checkbox()
+
+
