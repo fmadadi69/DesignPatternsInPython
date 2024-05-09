@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
 
-class Door:
+class Door(ABC):
+    @abstractmethod
     def getDescription(self):
         pass
 
@@ -16,7 +17,8 @@ class IronDoor(Door):
         print("This is Iron Door")
 
 
-class DoorFittingExpert:
+class DoorFittingExpert(ABC):
+    @abstractmethod
     def getDescription(self):
         pass
 
@@ -31,10 +33,11 @@ class Carpenter(DoorFittingExpert):
         print("I am Carpenter and fit Wooden Door")
 
 
-class DoorFactory:
+class DoorFactory(ABC):
+    @abstractmethod
     def makeDoor(self) -> Door:
         pass
-
+    @abstractmethod
     def makeFittingExpert(self) -> DoorFittingExpert:
         pass
 
@@ -59,21 +62,22 @@ class Application:
     def __init__(self, factory: DoorFactory):
         self.factory = factory
 
-    def create_Door(self):
+    def fit_door(self):
         door = self.factory.makeDoor()
-        fiiting_expert = self.factory.makeFittingExpert()
+        door_fitting_expert = self.factory.makeFittingExpert()
 
         door.getDescription()
-        fiiting_expert.getDescription()
+        door_fitting_expert.getDescription()
 
 
-wooden_door = WoodenDoorFactory()
-app1 = Application(wooden_door)
-app1.create_Door()
+woodenDoor = WoodenDoorFactory()
+app1 = Application(woodenDoor)
+app1.fit_door()
 
 iron_door = IronDoorFactory()
 app2 = Application(iron_door)
-app2.create_Door()
+app2.fit_door()
+
 
 # ################ THEMES ################## #
 class Button(ABC):
@@ -130,7 +134,7 @@ class DarkTheme(GUIFactory):
     def create_button(self) -> Button:
         return DarkButton()
 
-    def create_checkbox(self) -> CheckBox :
+    def create_checkbox(self) -> CheckBox:
         return DarkCheckbox()
 
 
@@ -141,16 +145,19 @@ class Application:
     def create_gui(self):
         button = self.factory.create_button()
         checkbox = self.factory.create_checkbox()
+
         button.draw()
         checkbox.draw()
 
 
 light_theme = LightTheme()
+dark_theme = DarkTheme()
+
 app1 = Application(light_theme)
 app1.create_gui()
 
-dark_theme = DarkTheme()
 app2 = Application(dark_theme)
 app2.create_gui()
+
 
 

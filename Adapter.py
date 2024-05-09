@@ -1,35 +1,46 @@
-class XmlStockDataSource:
-    def __init__(self, xml_data):
-        self.xml_data = xml_data
-
-    def get_data(self):
-        return self.xml_data
+class EmailNotification:
+    @staticmethod
+    def send_email(subject, message):
+        print(f"sending email with subject: {subject} and message: {message}")
 
 
-class AnalyticsStockData:
-    def __init__(self, json_data):
-        self.data = json_data
-
-    def analyse(self):
-        return f'Json Data: {self.data} is Analysed'
+class SMSNotification:
+    @staticmethod
+    def send_sms(message):
+        print(f"send sms with message: {message}")
 
 
-class XMLToJsonAdapter:
-    def __init__(self,xml_data_source):
-        self.xml_data_source = xml_data_source
-
-    def convert_xml_to_json(self):
-        xml_data = self.xml_data_source.get_data()
-        return xml_data.replace("<", "{").replace(">", "}")
+class Notification:
+    @staticmethod
+    def send(message):
+        pass
 
 
-xml_data_source = XmlStockDataSource("<stock>...</stock>")
-xml_to_json = XMLToJsonAdapter(xml_data_source)
-json_data = xml_to_json.convert_xml_to_json()
-analysis_data = AnalyticsStockData(json_data)
-print(analysis_data.analyse())
+class EmailNotificationAdapter(Notification):
+    def __init__(self, email_notification):
+        self.email_notification = email_notification
+
+    def send(self, message):
+        self.email_notification.send_email(None, message)
 
 
+class SMSNotificationAdapter(Notification):
+    def __init__(self, smsnotification):
+        self.smsnotification = smsnotification
+
+    def send(self, message):
+        self.smsnotification.send_sms(message)
 
 
+def notify(notification):
+    return notification.send("This is a test message")
+
+
+email = EmailNotification()
+email_adapter = EmailNotificationAdapter(email)
+notify(email_adapter)
+
+sms = SMSNotification()
+sms_adapter = SMSNotificationAdapter(sms)
+notify(sms_adapter)
 
