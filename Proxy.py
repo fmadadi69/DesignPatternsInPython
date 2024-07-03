@@ -36,3 +36,6 @@ image1.display()
 
 image2 = ImageProxy('salam2')
 image2.display()
+
+
+# ### This code is going to be completed
