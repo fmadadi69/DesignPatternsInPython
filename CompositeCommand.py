@@ -84,9 +84,6 @@ class GoodMorningCommand(Command):
         self._commands.append(command)
 
     def execute(self):
-        self.add_command(TurnOnLightsCommand(SmartHomeAutomation()))
-        self.add_command(UnLockTheDoorCommand(SmartHomeAutomation()))
-        self.add_command(SetThermostateCommand(SmartHomeAutomation(), 22))
         for item in self._commands:
             item.execute()
 
@@ -99,9 +96,6 @@ class GoodNightCommand(Command):
         self._commands.append(command)
 
     def execute(self):
-        self.add_command(TurnOffLightsCommand(SmartHomeAutomation()))
-        self.add_command(LockTheDoorCommand(SmartHomeAutomation()))
-        self.add_command(SetThermostateCommand(SmartHomeAutomation(), 18))
         for item in self._commands:
             item.execute()
 
@@ -114,8 +108,16 @@ class Button:
         return self._command.execute()
 
 
-button = Button(GoodMorningCommand())
-button.click()
+good_morning = GoodMorningCommand()
+good_morning.add_command(TurnOnLightsCommand(SmartHomeAutomation()))
+good_morning.add_command(UnLockTheDoorCommand(SmartHomeAutomation()))
+good_morning.add_command(SetThermostateCommand(SmartHomeAutomation(), 22))
+good_morning_button = Button(good_morning)
+good_morning_button.click()
 
-button2 = Button(GoodNightCommand())
-button2.click()
+good_night = GoodNightCommand()
+good_night.add_command(TurnOffLightsCommand(SmartHomeAutomation()))
+good_night.add_command(LockTheDoorCommand(SmartHomeAutomation()))
+good_night.add_command(SetThermostateCommand(SmartHomeAutomation(), 18))
+good_night_button = Button(good_night)
+good_night_button.click()
